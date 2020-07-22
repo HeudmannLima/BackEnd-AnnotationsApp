@@ -9,6 +9,11 @@ module.exports = {
     const titleExists = await Annotations.findOne({ title });
     
     if (!titleExists) {
+
+      if (!notes) {
+        return res.status(400).json({ error: `Necessário ter uma anotação!` });
+      }
+
       const annotationCreated = await Annotations.create({
         title,
         notes,
@@ -18,7 +23,7 @@ module.exports = {
       return res.json(annotationCreated);
     }
 
-    return res.status(401).json({ error: `Título (${title}) já existe!` });
+    return res.status(400).json({ error: `Título (${title}) já existe!` });
   },
 
 
